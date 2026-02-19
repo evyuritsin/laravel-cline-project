@@ -1,0 +1,408 @@
+# 📹 Документация API: Генерация видео по шаблону
+
+## 📌 Общая информация
+
+**Метод:** `POST`  
+**Endpoint:** `https://api.apifly.ru/api/video-templates/generate/{template_id}`  
+**Аутентификация:** Требуется (Bearer Token через Sanctum)  
+**Content-Type:** `application/json`
+
+Где `{template_id}` - UUID идентификатор шаблона (например: `019bb752-8477-72e5-9dca-ba9bddc7b080`)
+
+## 🔐 Аутентификация
+
+Перед использованием метода необходимо получить токен аутентификации:
+
+1. **Логин:** `POST /api/auth/login`
+2. **Использовать токен в заголовках:**
+   ```
+   Authorization: Bearer {ваш_токен}
+   Accept: application/json
+   ```
+
+## 📋 Структура запроса
+
+### Параметры запроса
+
+| Параметр | Тип | Обязательный | Описание | Пример |
+|----------|-----|--------------|----------|---------|
+| `fps` | integer | ✅ | Количество кадров в секунду | `30` |
+| `width` | integer/string | ✅ | Ширина видео в пикселях | `720` |
+| `height` | integer/string | ✅ | Высота видео в пикселях | `1360` |
+| `duration` | integer | ✅ | Длительность видео в кадрах | `420` (14 сек при 30 fps) |
+| `elements` | array | ✅ | Массив элементов для отображения в видео | |
+
+### Структура элемента (`elements`)
+
+Каждый элемент может быть одного из четырех типов: `video`, `image`, `text` или `audio`.
+
+#### Аудио элемент (`type: "audio"`)
+
+```json
+{
+  "type": "audio",
+  "src": "URL_аудио",
+  "1": 1,
+}
+```
+
+#### 📹 Видео элемент (`type: "video"`)
+
+```json
+{
+  "type": "video",
+  "src": "URL_видео",
+  "from": 0,
+  "durationInFrames": 420,
+  "top": 0,
+  "left": 0,
+  "right": 0,
+  "bottom": 0,
+  "width": "100%",
+  "height": "100%",
+  "volume": 1,
+  "zIndex": 1,
+  "insertType": "base",
+  "animations": [...],
+  "styles": [],
+  "show": true
+}
+```
+
+#### 🖼️ Изображение элемент (`type: "image"`)
+
+```json
+{
+  "type": "image",
+  "src": "URL_изображения",
+  "from": 0,
+  "durationInFrames": 420,
+  "top": 0,
+  "left": 0,
+  "right": 0,
+  "bottom": 0,
+  "width": "100%",
+  "height": "100%",
+  "zIndex": 1,
+  "insertType": "base",
+  "animations": [...],
+  "styles": [...],
+  "show": true
+}
+```
+
+#### 📝 Текст элемент (`type: "text"`)
+
+```json
+{
+  "type": "text",
+  "text": "Текст для отображения",
+  "from": 0,
+  "durationInFrames": 420,
+  "top": 50,
+  "left": 50,
+  "right": 0,
+  "bottom": 0,
+  "width": "600px",
+  "height": "100px",
+  "zIndex": 0,
+  "animations": [...],
+  "styles": [...],
+  "show": true
+}
+```
+
+### 🎬 Анимации (`animations`)
+
+#### Тип анимации: `"base"` (базовые анимации)
+```json
+{
+  "type": "base",
+  "name": "название_анимации",
+  "duration": 40,
+  "delay": 0,
+  "loop": false
+}
+```
+
+#### Тип анимации: `"InOut"` (вход-выход)
+```json
+{
+  "type": "InOut",
+  "name": "название_анимации",
+  "duration": 420,
+  "inDuration": 40,
+  "outDuration": 40
+}
+```
+
+#### 📚 Доступные анимации:
+
+**Fade анимации:**
+- `fadeIn`, `fadeInDown`, `fadeInUp`, `fadeInLeft`, `fadeInRight`
+- `fadeOut`, `fadeOutDown`, `fadeOutUp`, `fadeOutLeft`, `fadeOutRight`
+- `fadeInTopLeft`, `fadeInTopRight`, `fadeInBottomLeft`, `fadeInBottomRight`
+- `fadeOutTopLeft`, `fadeOutTopRight`, `fadeOutBottomLeft`, `fadeOutBottomRight`
+- Добавьте `Big` для большей дистанции: `fadeInDownBig`, `fadeInLeftBig`, и т.д.
+
+**Zoom анимации:**
+- `zoomIn`, `zoomInDown`, `zoomInUp`, `zoomInLeft`, `zoomInRight`
+- `zoomOut`, `zoomOutDown`, `zoomOutUp`, `zoomOutLeft`, `zoomOutRight`
+
+**Slide анимации:**
+- `slideInDown`, `slideInUp`, `slideInLeft`, `slideInRight`
+- `slideOutDown`, `slideOutUp`, `slideOutLeft`, `slideOutRight`
+
+**Rotate анимации:**
+- `rotateIn`, `rotateOut`
+- `rotateInDownLeft`, `rotateInDownRight`, `rotateInUpLeft`, `rotateInUpRight`
+- `rotateOutDownLeft`, `rotateOutDownRight`, `rotateOutUpLeft`, `rotateOutUpRight`
+
+**Flip анимации:**
+- `flipInX`, `flipInY`, `flipOutX`, `flipOutY`
+
+**Bounce анимации:**
+- `bounceIn`, `bounceOut`
+- `bounceInDown`, `bounceInUp`, `bounceInLeft`, `bounceInRight`
+- `bounceOutDown`, `bounceOutUp`, `bounceOutLeft`, `bounceOutRight`
+
+### 🎨 Стили (`styles`)
+
+Для текста и изображений можно задавать CSS-стили:
+
+```json
+"styles": [
+  {
+    "fontFamily": "Vollkorn", 
+    "fontWeight": 700,
+    "fontSize": "60px",
+    "color": "#cd2929",
+    "padding": "20px",
+    "backgroundColor": "#ffffff",
+    "border": "4px solid #000000",
+    "borderRadius": "16px"
+  }
+]
+```
+
+#### 🖋️ Доступные шрифты:
+- Roboto, Open Sans, Montserrat, Nunito, Rubik, Raleway, Ubuntu
+- Comfortaa, Merriweather, Lora, Playfair Display
+- Lobster, Pacifico, Dancing Script, Caveat
+- И другие (см. файл `fonts.ts`)
+
+### 🔧 `insertType` параметр
+
+Определяет способ вставки элемента:
+
+- `"base"` - элемент занимает всю доступную область Sequence
+- `"insert"` - элемент позиционируется абсолютно внутри контейнера
+
+## 📝 Пример полного запроса
+
+```bash
+curl -X POST \
+  https://api.apifly.ru/api/video-templates/generate/019bb752-8477-72e5-9dca-ba9bddc7b080 \
+  -H "Authorization: Bearer {ваш_токен}" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json" \
+  -d '{
+    "fps": 30,
+    "width": "720",
+    "height": "1360",
+    "duration": 420,
+    "elements": [
+      {
+        "src": "https://vailite.ru/templates/tpl-2/out/IRpWa0RdFaTB83V6.mp4",
+        "top": 0,
+        "from": 0,
+        "left": 0,
+        "show": true,
+        "type": "video",
+        "right": 0,
+        "width": "100%",
+        "bottom": 0,
+        "height": "100%",
+        "volume": 1,
+        "zIndex": 1,
+        "animations": [
+          {
+            "type": "InOut",
+            "name": "fadeInTopLeft",
+            "duration": 420,
+            "inDuration": 40,
+            "outDuration": 40
+          }
+        ],
+        "styles": [],
+        "insertType": "base",
+        "durationInFrames": 420
+      },
+      {
+        "top": 50,
+        "from": 0,
+        "left": 50,
+        "show": true,
+        "text": "Тесты шрифтов",
+        "type": "text",
+        "right": 0,
+        "width": "600px",
+        "bottom": 0,
+        "height": "100px",
+        "zIndex": 0,
+        "animations": [
+          {
+            "type": "base",
+            "name": "zoomIn",
+            "duration": 40,
+            "delay": 0,
+            "loop": false
+          }
+        ],
+        "styles": [
+          {
+            "fontFamily": "Vollkorn",
+            "fontWeight": 700,
+            "fontSize": "60px",
+            "color": "#cd2929",
+            "padding": "20px",
+            "backgroundColor": "#ffffff",
+            "border": "4px solid #000000",
+            "borderRadius": "16px"
+          }
+        ],
+        "durationInFrames": 420
+      },
+      {
+          "type": "audio",
+          "volume": 1,
+          "src": "https://vailite.ru/templates/tpl-2/out/IRpWa0RdFaTB83V6.mp3"
+      }
+    ]
+  }'
+```
+
+## ✅ Успешный ответ
+
+```json
+{
+  "success": true,
+  "message": "Задача на генерацию видео создана",
+  "data": {
+    "id": "uuid_задачи",
+    "file_name": "случайное_имя.mp4",
+    "status": "processing"
+  }
+}
+```
+
+## ⚠️ Возможные ошибки
+
+| Код | Сообщение | Причина |
+|-----|-----------|---------|
+| 401 | Unauthenticated | Отсутствует или неверный токен |
+| 404 | Видео шаблон не найден | Неверный template_id |
+| 422 | Validation error | Неверная структура JSON |
+| 500 | Internal server error | Ошибка сервера |
+
+## 🔄 Мониторинг статуса генерации
+
+Для проверки статуса генерации видео можно использовать:
+
+```bash
+# Проверить статус задачи (по ID из ответа)
+GET https://api.apifly.ru/api/video-templates/status/{id_tpl}/{task_id}
+этот метод нужно вызывать периодически, пока не появится поле "data->file_name" в ответе, которое является ссылкой на видео
+
+Ответ при успешной генерации
+
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "status": "completed",
+    "file_name": "random16chars.mp4",
+    "created_at": "2025-11-27T10:17:44.000000Z",
+    "video_url": "https://vailite.ru/templates/tpl-1/out/random16chars.mp4",
+    "message": "Видео успешно сгенерировано"
+  }
+}
+
+```
+
+## 💡 Рекомендации и лучшие практики
+
+1. **Оптимизация видео:** Используйте видео в форматах MP4, WebM с кодеками H.264/H.265
+2. **Размеры файлов:** Убедитесь, что видео не слишком большие для быстрой загрузки
+3. **Анимации:** Тестируйте анимации с разными параметрами для достижения нужного эффекта
+4. **Позиционирование:** Используйте `zIndex` для управления порядком отображения элементов
+5. **Шрифты:** Убедитесь, что используемые шрифты поддерживают кириллицу
+6. **Асинхронность:** Генерация видео происходит асинхронно, не блокируйте интерфейс ожиданием
+
+## 🚀 Примеры использования
+
+### Пример 1: Простое видео с текстом
+```json
+{
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "duration": 300,
+  "elements": [
+    {
+      "type": "video",
+      "src": "https://example.com/background.mp4",
+      "from": 0,
+      "durationInFrames": 300,
+      "width": "100%",
+      "height": "100%",
+      "insertType": "base"
+    },
+    {
+      "type": "text",
+      "text": "Привет, мир!",
+      "from": 0,
+      "durationInFrames": 300,
+      "top": "50%",
+      "left": "50%",
+      "styles": [{"fontSize": "72px", "color": "white"}]
+    }
+  ]
+}
+```
+
+### Пример 2: Сложная анимация
+```json
+{
+  "fps": 60,
+  "width": 1080,
+  "height": 1920,
+  "duration": 600,
+  "elements": [
+    {
+      "type": "image",
+      "src": "https://example.com/image.jpg",
+      "from": 0,
+      "durationInFrames": 600,
+      "width": "100%",
+      "height": "100%",
+      "insertType": "base",
+      "animations": [{
+        "type": "InOut",
+        "name": "zoomIn",
+        "duration": 600,
+        "inDuration": 60,
+        "outDuration": 60
+      }]
+    }
+  ]
+}
+```
+
+## 📊 Конвертация времени
+
+- **Кадры в секунды:** `секунды = кадры / fps`
+- **Пример:** При `fps: 30` и `duration: 420` → `420 / 30 = 14 секунд`
+
+Стоимость - $0.3 за генерацию
+

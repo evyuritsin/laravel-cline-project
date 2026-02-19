@@ -1,0 +1,11 @@
+{
+  "success": true,
+  "data": {
+    "id": 43,
+    "status": "completed",
+    "file_name": "ImxR7vrbsGUDn7uC.mp4",
+    "created_at": "2026-02-17T19:31:03.000000Z",
+    "video_url": "https://api.apifly.ru/templates/019c6c50-b0a5-7334-b216-cb3fbc888751/out/ImxR7vrbsGUDn7uC.mp4",
+    "message": "Видео успешно сгенерировано"
+  }
+}

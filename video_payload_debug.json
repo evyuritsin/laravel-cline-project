@@ -1,0 +1,244 @@
+{
+  "fps": 30,
+  "width": "720",
+  "height": "1280",
+  "duration": 600,
+  "elements": [
+    {
+      "type": "image",
+      "src": "https://api.apifly.ru/uploads/19f53c66-7a9c-4024-a84a-497b822466d8.png",
+      "from": 0,
+      "durationInFrames": 150,
+      "top": 0,
+      "left": 0,
+      "right": 0,
+      "bottom": 0,
+      "width": "100%",
+      "height": "100%",
+      "zIndex": 1,
+      "insertType": "base",
+      "animations": [
+        {
+          "type": "InOut",
+          "name": "slideInDown",
+          "duration": 150,
+          "inDuration": 15,
+          "outDuration": 15
+        }
+      ],
+      "styles": [],
+      "show": true
+    },
+    {
+      "type": "text",
+      "text": "Slider 1",
+      "from": 0,
+      "durationInFrames": 150,
+      "top": "50%",
+      "left": "50%",
+      "right": 0,
+      "bottom": 0,
+      "width": "600px",
+      "height": "100px",
+      "zIndex": 2,
+      "animations": [
+        {
+          "type": "base",
+          "name": "bounceIn",
+          "duration": 30,
+          "delay": 15,
+          "loop": false
+        }
+      ],
+      "styles": [
+        {
+          "fontFamily": "Pacifico",
+          "fontWeight": 700,
+          "fontSize": "60px",
+          "color": "#ffffff",
+          "textAlign": "center",
+          "textShadow": "2px 2px 4px rgba(0, 0, 0, 0.5)",
+          "transform": "translate(-50%, -50%)"
+        }
+      ],
+      "show": true
+    },
+    {
+      "type": "image",
+      "src": "https://api.apifly.ru/uploads/b5c454d7-ae2e-4aa3-a280-45e6656e2550.png",
+      "from": 150,
+      "durationInFrames": 150,
+      "top": 0,
+      "left": 0,
+      "right": 0,
+      "bottom": 0,
+      "width": "100%",
+      "height": "100%",
+      "zIndex": 1,
+      "insertType": "base",
+      "animations": [
+        {
+          "type": "InOut",
+          "name": "slideInDown",
+          "duration": 150,
+          "inDuration": 15,
+          "outDuration": 15
+        }
+      ],
+      "styles": [],
+      "show": true
+    },
+    {
+      "type": "text",
+      "text": "Slider 2",
+      "from": 150,
+      "durationInFrames": 150,
+      "top": "50%",
+      "left": "50%",
+      "right": 0,
+      "bottom": 0,
+      "width": "600px",
+      "height": "100px",
+      "zIndex": 2,
+      "animations": [
+        {
+          "type": "base",
+          "name": "bounceIn",
+          "duration": 30,
+          "delay": 15,
+          "loop": false
+        }
+      ],
+      "styles": [
+        {
+          "fontFamily": "Pacifico",
+          "fontWeight": 700,
+          "fontSize": "60px",
+          "color": "#ffffff",
+          "textAlign": "center",
+          "textShadow": "2px 2px 4px rgba(0, 0, 0, 0.5)",
+          "transform": "translate(-50%, -50%)"
+        }
+      ],
+      "show": true
+    },
+    {
+      "type": "image",
+      "src": "https://api.apifly.ru/uploads/4244389d-1587-484b-8dc7-81af28a5a9e3.png",
+      "from": 300,
+      "durationInFrames": 150,
+      "top": 0,
+      "left": 0,
+      "right": 0,
+      "bottom": 0,
+      "width": "100%",
+      "height": "100%",
+      "zIndex": 1,
+      "insertType": "base",
+      "animations": [
+        {
+          "type": "InOut",
+          "name": "slideInDown",
+          "duration": 150,
+          "inDuration": 15,
+          "outDuration": 15
+        }
+      ],
+      "styles": [],
+      "show": true
+    },
+    {
+      "type": "text",
+      "text": "Slider 3",
+      "from": 300,
+      "durationInFrames": 150,
+      "top": "50%",
+      "left": "50%",
+      "right": 0,
+      "bottom": 0,
+      "width": "600px",
+      "height": "100px",
+      "zIndex": 2,
+      "animations": [
+        {
+          "type": "base",
+          "name": "bounceIn",
+          "duration": 30,
+          "delay": 15,
+          "loop": false
+        }
+      ],
+      "styles": [
+        {
+          "fontFamily": "Pacifico",
+          "fontWeight": 700,
+          "fontSize": "60px",
+          "color": "#ffffff",
+          "textAlign": "center",
+          "textShadow": "2px 2px 4px rgba(0, 0, 0, 0.5)",
+          "transform": "translate(-50%, -50%)"
+        }
+      ],
+      "show": true
+    },
+    {
+      "type": "image",
+      "src": "https://api.apifly.ru/uploads/f163ce77-9768-4453-958a-81178035ad04.png",
+      "from": 450,
+      "durationInFrames": 150,
+      "top": 0,
+      "left": 0,
+      "right": 0,
+      "bottom": 0,
+      "width": "100%",
+      "height": "100%",
+      "zIndex": 1,
+      "insertType": "base",
+      "animations": [
+        {
+          "type": "InOut",
+          "name": "slideInDown",
+          "duration": 150,
+          "inDuration": 15,
+          "outDuration": 15
+        }
+      ],
+      "styles": [],
+      "show": true
+    },
+    {
+      "type": "text",
+      "text": "Slider 4",
+      "from": 450,
+      "durationInFrames": 150,
+      "top": "50%",
+      "left": "50%",
+      "right": 0,
+      "bottom": 0,
+      "width": "600px",
+      "height": "100px",
+      "zIndex": 2,
+      "animations": [
+        {
+          "type": "base",
+          "name": "bounceIn",
+          "duration": 30,
+          "delay": 15,
+          "loop": false
+        }
+      ],
+      "styles": [
+        {
+          "fontFamily": "Pacifico",
+          "fontWeight": 700,
+          "fontSize": "60px",
+          "color": "#ffffff",
+          "textAlign": "center",
+          "textShadow": "2px 2px 4px rgba(0, 0, 0, 0.5)",
+          "transform": "translate(-50%, -50%)"
+        }
+      ],
+      "show": true
+    }
+  ]
+}
