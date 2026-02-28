@@ -16,6 +16,9 @@ Route::get('/', function () {
     ]);
 });
 
+// Language switching route
+Route::post('/locale/switch', [App\Http\Controllers\LocaleController::class, 'switch'])->name('locale.switch');
+
 // HTML Template Routes
 Route::get('/template', function () {
     // Serve the standalone HTML template file
