@@ -1,0 +1,49 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Docker
+docker-compose*.yml
+Dockerfile
+.dockerignore
+docker-entrypoint.sh
+
+# Зависимости
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Composer
+/vendor/
+composer.phar
+composer.lock
+
+# Laravel
+.env
+.env.backup
+.env.production
+storage/*.key
+bootstrap/cache/*
+!bootstrap/cache/.gitkeep
+
+# Логи
+*.log
+storage/logs/
+
+# Тесты
+.phpunit.result.cache
+phpunit.xml
+tests/
+
+# Документация
+*.md
+!README.md
+docs/
