@@ -11,13 +11,14 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip \
-    supervisor
+    supervisor \
+    libicu-dev
 
 # Очистка кэша
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Установка PHP расширений
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl
 
 # Установка Redis extension
 RUN pecl install redis && docker-php-ext-enable redis

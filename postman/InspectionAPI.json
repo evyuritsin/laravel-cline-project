@@ -1,0 +1,526 @@
+{
+	"info": {
+		"_postman_id": "inspection-api-mvp",
+		"name": "Move-in/out Inspection API",
+		"description": "API для приложения осмотра квартир при заселении/выселении (MVP)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Request OTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"phone\": \"79001234567\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/auth/request-otp",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "auth", "request-otp"]
+						},
+						"description": "Запрос OTP кода на телефон. Возвращает debug_code в development режиме. Rate limit: 3 запроса в минуту."
+					},
+					"response": []
+				},
+				{
+					"name": "Verify OTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"phone\": \"79001234567\",\n  \"code\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/auth/verify-otp",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "auth", "verify-otp"]
+						},
+						"description": "Верификация OTP кода. При успехе возвращает токен и данные пользователя. Код действителен 5 минут, максимум 3 попытки проверки."
+					},
+					"response": []
+				},
+				{
+					"name": "Telegram Login (Legacy)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"telegram_id\": 123456789,\n  \"name\": \"Иван Петров\",\n  \"avatar_url\": \"https://example.com/avatar.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/auth/telegram",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "auth", "telegram"]
+						},
+						"description": "Авторизация через Telegram (устаревший способ). Сохранён для обратной совместимости."
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/auth/logout",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "auth", "logout"]
+						},
+						"description": "Выход из системы (аннулирование токена)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Geolocation",
+			"item": [
+				{
+					"name": "Geocode Address",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/geocode?address=Москва",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "geocode"],
+							"query": [
+								{
+									"key": "address",
+									"value": "Москва",
+									"description": "Адрес для геокодирования"
+								}
+							]
+						},
+						"description": "Преобразование адреса в координаты (геокодирование)"
+					},
+					"response": []
+				},
+				{
+					"name": "Reverse Geocode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/reverse-geocode?latitude=55.7558&longitude=37.6173",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "reverse-geocode"],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "55.7558",
+									"description": "Широта"
+								},
+								{
+									"key": "longitude",
+									"value": "37.6173",
+									"description": "Долгота"
+								}
+							]
+						},
+						"description": "Получение адреса по координатам (обратное геокодирование)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/user/profile",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "user", "profile"]
+						},
+						"description": "Получение профиля текущего пользователя"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Новое Имя\",\n  \"avatar_url\": \"https://example.com/new-avatar.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/user/profile",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "user", "profile"]
+						},
+						"description": "Обновление профиля пользователя"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inspections",
+			"item": [
+				{
+					"name": "List Inspections",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/inspections",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "inspections"]
+						},
+						"description": "Получение списка всех осмотров пользователя"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Inspection",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"address\": \"Москва, Пресненская наб., 12\",\n  \"latitude\": 55.7495,\n  \"longitude\": 37.5375,\n  \"type\": \"move_in\",\n  \"inspection_date\": \"2026-06-01\",\n  \"notes\": \"Осмотр перед заселением\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/inspections",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "inspections"]
+						},
+						"description": "Создание нового осмотра"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Inspection",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/inspections/{id}",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "inspections", "{id}"]
+						},
+						"description": "Получение деталей осмотра"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Inspection",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"address\": \"Москва, Пресненская наб., 12\",\n  \"status\": \"completed\",\n  \"notes\": \"Обновлённые заметки\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/inspections/{id}",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "inspections", "{id}"]
+						},
+						"description": "Обновление осмотра"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Inspection",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/inspections/{id}",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "inspections", "{id}"]
+						},
+						"description": "Удаление осмотра"
+					},
+					"response": []
+				},
+				{
+					"name": "Generate PDF",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/inspections/{id}/pdf",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "inspections", "{id}", "pdf"]
+						},
+						"description": "Генерация PDF акта осмотра"
+					},
+					"response": []
+				},
+				{
+					"name": "Send PDF",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"owner@example.com\",\n  \"telegram_id\": 123456789\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/inspections/{id}/send",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "inspections", "{id}", "send"]
+						},
+						"description": "Отправка PDF акта"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rooms",
+			"item": [
+				{
+					"name": "Add Room",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Гостиная\",\n  \"notes\": \"Осмотр гостиной 25 кв.м.\",\n  \"sort_order\": 1,\n  \"elements\": {\n    \"walls\": \"good\",\n    \"floor\": \"good\",\n    \"ceiling\": \"good\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/inspections/{inspectionId}/rooms",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "inspections", "{inspectionId}", "rooms"]
+						},
+						"description": "Добавление комнаты к осмотру"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Room",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Гостиная (обновлённая)\",\n  \"notes\": \"Новые заметки\",\n  \"elements\": {\n    \"walls\": \"needs_repair\",\n    \"floor\": \"good\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/rooms/{id}",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "rooms", "{id}"]
+						},
+						"description": "Обновление комнаты"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Room",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/rooms/{id}",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "rooms", "{id}"]
+						},
+						"description": "Удаление комнаты"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Photos",
+			"item": [
+				{
+					"name": "Add Photo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"description": "Файл изображения"
+								},
+								{
+									"key": "latitude",
+									"value": "55.7495",
+									"type": "text"
+								},
+								{
+									"key": "longitude",
+									"value": "37.5375",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Фото гостиной",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/rooms/{roomId}/photos",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "rooms", "{roomId}", "photos"]
+						},
+						"description": "Загрузка фотографии комнаты"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Photo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TOKEN}}"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/photos/{id}",
+							"host": ["{{BASE_URL}}"],
+							"path": ["api", "photos", "{id}"]
+						},
+						"description": "Удаление фотографии"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "TOKEN",
+			"value": "YOUR_API_TOKEN_HERE",
+			"type": "string"
+		}
+	]
+}
